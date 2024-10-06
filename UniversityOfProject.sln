@@ -1,8 +1,23 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{23CD7093-71B1-44CD-B16A-1EF83721449F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{957E0648-438C-4BE3-9901-695DC93CC3AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp", "BlazorApp\BlazorApp.csproj", "{99E8CCC3-DB33-43A9-B168-854EF6855D4E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{99E8CCC3-DB33-43A9-B168-854EF6855D4E} = {957E0648-438C-4BE3-9901-695DC93CC3AB}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{99E8CCC3-DB33-43A9-B168-854EF6855D4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99E8CCC3-DB33-43A9-B168-854EF6855D4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99E8CCC3-DB33-43A9-B168-854EF6855D4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99E8CCC3-DB33-43A9-B168-854EF6855D4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
