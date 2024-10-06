@@ -7,22 +7,32 @@ namespace Core;
 /// </summary>
 public static class Guard
 {
-    public static void ThrowWhenSmallerLength(string value, int length,
+    public static void ThrowWhenSmallerLength(string? value, int length,
         [CallerArgumentExpression("value")] string? name = null)
     {
-        if (value.Length < length)
-        {
+        if (value is null || value.Length < length)
             throw new ArgumentException($"{name} must be at least {length} characters long.");
-        }
     }
 
     public static void ThrowWhenSmallerLengthIgnoreNull(string? value, int length,
         [CallerArgumentExpression("value")] string? name = null)
     {
         if (value is not null && value.Length < length)
-        {
             throw new ArgumentException($"{name} must be at least {length} characters long.");
-        }
+    }
+
+    public static void ThrowWhenOutOfLengthRange(string? value, int minLength, int maxLength,
+        [CallerArgumentExpression("value")] string? name = null)
+    {
+        if (value is null || value.Length < minLength || value.Length > maxLength)
+            throw new ArgumentException($"{name} must be between {minLength} and {maxLength} characters long.");
+    }
+
+    public static void ThrowWhenOutOfLengthRangeIgnoreNull(string? value, int minLength, int maxLength,
+        [CallerArgumentExpression("value")] string? name = null)
+    {
+        if (value is not null && (value.Length < minLength || value.Length > maxLength))
+            throw new ArgumentException($"{name} must be between {minLength} and {maxLength} characters long.");
     }
 }
 
