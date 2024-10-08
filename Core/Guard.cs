@@ -7,6 +7,12 @@ namespace Core;
 /// </summary>
 public static class Guard
 {
+    public static void ThrowWhenNullOrWhiteSpace(string? value, [CallerArgumentExpression("value")] string? name = null)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            throw new ArgumentException($"{name} must not be null or empty.");
+    }
+    
     public static void ThrowWhenSmallerLength(string? value, int length,
         [CallerArgumentExpression("value")] string? name = null)
     {

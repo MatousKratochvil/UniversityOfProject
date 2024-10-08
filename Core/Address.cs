@@ -1,5 +1,8 @@
 ﻿namespace Core;
 
+/// <summary>
+/// Value object to represent an address.
+/// </summary>
 public record Address
 {
     public string Street { get; }

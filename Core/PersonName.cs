@@ -1,24 +1,33 @@
-﻿namespace Core;
+﻿using Core.ValueObjects;
 
+namespace Core;
+
+/// <summary>
+/// Value object to represent a person's name.
+/// </summary>
 public record PersonName
 {
-    public string FirstName { get; }
-    public string? MiddleName { get; }
-    public string LastName { get; }
+    public Name FirstName { get; }
+    public Name? MiddleName { get; }
+    public Name LastName { get; }
 
-    private PersonName(string firstName, string? middleName, string lastName)
+    private PersonName(Name firstName, Name? middleName, Name lastName)
     {
         FirstName = firstName;
-        MiddleName = middleName;
+        if (middleName != null) MiddleName = middleName;
         LastName = lastName;
     }
 
     public static PersonName Create(string firstName, string? middleName, string lastName)
-    {
-        Guard.ThrowWhenOutOfLengthRange(firstName, 2, 50);
-        Guard.ThrowWhenOutOfLengthRangeIgnoreNull(middleName, 1, 50);
-        Guard.ThrowWhenOutOfLengthRange(lastName, 2, 50);
+        => new(
+            new Name(firstName, ValidateName),
+            middleName is not null ? new Name(middleName, ValidateMiddleName) : null,
+            new Name(lastName, ValidateName)
+        );
 
-        return new PersonName(firstName, middleName, lastName);
-    }
+    private static void ValidateName(string value, string? propertyName) =>
+        Guard.ThrowWhenOutOfLengthRange(value, 2, 50, propertyName);
+
+    private static void ValidateMiddleName(string value, string? propertyName) =>
+        Guard.ThrowWhenOutOfLengthRange(value, 1, 50, propertyName);
 }
