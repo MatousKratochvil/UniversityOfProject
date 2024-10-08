@@ -3,7 +3,7 @@
 namespace CoreTests;
 
 
-public class PersonNameTest
+public class PersonNameTests
 {
     [Theory]
     [InlineData("John", null, "Doe")]
@@ -11,11 +11,11 @@ public class PersonNameTest
     [InlineData("John", "Middle", "Doe")]
     public void Create_WithValidArguments_ReturnsPersonNameType(string firstName, string? middleName, string lastName)
     {
-        var personName = PersonName.Create(firstName, middleName, lastName);
+        var personName = PersonName.CreateBasic(firstName, middleName, lastName);
 
-        Assert.Equal(firstName, personName.FirstName);
+        Assert.Equal(firstName, personName.FirstSingleName);
         Assert.Equal(middleName, personName.MiddleName);
-        Assert.Equal(lastName, personName.LastName);
+        Assert.Equal(lastName, personName.LastSingleName);
     }
     
     [Theory]
@@ -32,6 +32,6 @@ public class PersonNameTest
     [InlineData("František Josef Václav Karel Jan Nepomuk Alois Habsburg", "M", "Doe")]
     public void Create_WithInvalidArguments_ThrowsArgumentException(string firstName, string? middleName, string lastName)
     {
-        Assert.Throws<ArgumentException>(() => PersonName.Create(firstName, middleName, lastName));
+        Assert.Throws<ArgumentException>(() => PersonName.CreateBasic(firstName, middleName, lastName));
     }
 }

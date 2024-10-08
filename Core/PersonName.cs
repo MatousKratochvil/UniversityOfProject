@@ -7,23 +7,28 @@ namespace Core;
 /// </summary>
 public record PersonName
 {
-    public Name FirstName { get; }
-    public Name? MiddleName { get; }
-    public Name LastName { get; }
+    public SingleName FirstSingleName { get; }
+    public SingleName? MiddleName { get; }
+    public SingleName LastSingleName { get; }
 
-    private PersonName(Name firstName, Name? middleName, Name lastName)
+    private PersonName(SingleName firstSingleName, SingleName? middleName, SingleName lastSingleName)
     {
-        FirstName = firstName;
+        FirstSingleName = firstSingleName;
         if (middleName != null) MiddleName = middleName;
-        LastName = lastName;
+        LastSingleName = lastSingleName;
     }
 
-    public static PersonName Create(string firstName, string? middleName, string lastName)
+    public static PersonName CreateBasic(string firstName, string? middleName, string lastName)
         => new(
-            new Name(firstName, ValidateName),
-            middleName is not null ? new Name(middleName, ValidateMiddleName) : null,
-            new Name(lastName, ValidateName)
+            new SingleName(firstName, ValidateName),
+            middleName is not null 
+                ? new SingleName(middleName, ValidateMiddleName)
+                : null,
+            new SingleName(lastName, ValidateName)
         );
+    
+    public static PersonName Create(SingleName firstSingleName, SingleName? middleName, SingleName lastSingleName)
+        => new(firstSingleName, middleName, lastSingleName);
 
     private static void ValidateName(string value, string? propertyName) =>
         Guard.ThrowWhenOutOfLengthRange(value, 2, 50, propertyName);

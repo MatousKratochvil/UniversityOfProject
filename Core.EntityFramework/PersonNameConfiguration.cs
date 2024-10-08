@@ -7,14 +7,14 @@ public class PersonNameConfiguration : IComplexPropertyConfiguration<PersonName>
 {
     public ComplexPropertyBuilder<PersonName> Configure(ComplexPropertyBuilder<PersonName> builder)
     {
-        builder.Property(x => x.FirstName)
+        builder.Property(x => x.FirstSingleName)
             .HasMaxLength(50)
             .IsRequired();
 
         builder.Property(x => x.MiddleName)
             .HasMaxLength(50);
 
-        builder.Property(x => x.LastName)
+        builder.Property(x => x.LastSingleName)
             .HasMaxLength(50)
             .IsRequired();
 
