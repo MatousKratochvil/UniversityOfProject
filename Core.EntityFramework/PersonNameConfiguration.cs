@@ -1,9 +1,10 @@
-﻿using Core.EntityFramework.Common;
+﻿using Core.CompositeValueObjects;
+using Core.EntityFramework.Common;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Core.EntityFramework;
 
-public class PersonNameConfiguration : IComplexPropertyConfiguration<PersonName>
+public sealed class PersonNameConfiguration : IComplexPropertyConfiguration<PersonName>
 {
     public ComplexPropertyBuilder<PersonName> Configure(ComplexPropertyBuilder<PersonName> builder)
     {

@@ -10,8 +10,8 @@ public class StateTests
     [InlineData("California")]
     public void Create_WithValidArguments_ReturnsStateType(string name)
     {
-        var cityNotNull = new State(name, NotNullValidator());
-        var cityMinLength = new State(name, MinLengthValidator(3));
+        var cityNotNull = new AddressState(name, NotNullValidator());
+        var cityMinLength = new AddressState(name, MinLengthValidator(3));
 
         Assert.Equal(name, cityNotNull);
         Assert.Equal(name, cityMinLength);
@@ -22,7 +22,7 @@ public class StateTests
     [InlineData("California", 12)]
     public void Create_WithInvalidArguments_MinLength_ThrowsArgumentException(string name, int min)
     {
-        Assert.Throws<ArgumentException>(() => new State(name, MinLengthValidator(min)));
+        Assert.Throws<ArgumentException>(() => new AddressState(name, MinLengthValidator(min)));
     }
 
     private static StateValidator NotNullValidator() => (input, _)

@@ -1,4 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
+using Core.ValueObjects;
 
 namespace Core;
 
@@ -7,12 +9,31 @@ namespace Core;
 /// </summary>
 public static class Guard
 {
+    public static void ThrowWhenContainsWhiteSpace(string? value,
+        [CallerArgumentExpression("value")] string? name = null)
+        => ThrowWhenContains(value, " ", name);
+    
+    public static void ThrowWhenRegexMatch(string? value, Regex regex,
+        string? message = null,
+        [CallerArgumentExpression("value")] string? name = null)
+    {
+        if (value is not null && regex.IsMatch(value))
+            throw new ArgumentException(message ?? $"Invalid {name}.", name);
+    }
+
+    public static void ThrowWhenContains(string? value, string contains,
+        [CallerArgumentExpression("value")] string? name = null)
+    {
+        if (value is not null && value.Contains(contains, StringComparison.Ordinal))
+            throw new ArgumentException($"{name} must not contain '{contains}'.");
+    }
+
     public static void ThrowWhenNullOrWhiteSpace(string? value, [CallerArgumentExpression("value")] string? name = null)
     {
         if (string.IsNullOrWhiteSpace(value))
             throw new ArgumentException($"{name} must not be null or empty.");
     }
-    
+
     public static void ThrowWhenSmallerLength(string? value, int length,
         [CallerArgumentExpression("value")] string? name = null)
     {

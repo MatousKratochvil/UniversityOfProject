@@ -11,8 +11,7 @@ public record struct ZipCode : IStringValueObject
     public ZipCode(string value, ZipCodeValidator validator, Regex letterChecker, [CallerArgumentExpression("value")] string? name = null)
     {
         validator(value, name);
-        if (letterChecker.IsMatch(value))
-            throw new ArgumentException("Zip code cannot contain letters", nameof(value));
+        Guard.ThrowWhenRegexMatch(value, letterChecker, "Zip code cannot contain letters", name);
         Value = value;
     }
 

@@ -1,9 +1,10 @@
-﻿using Core.EntityFramework.Common;
+﻿using Core.CompositeValueObjects;
+using Core.EntityFramework.Common;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Core.EntityFramework;
 
-public class AddressConfiguration : IComplexPropertyConfiguration<Address>
+public sealed class AddressConfiguration : IComplexPropertyConfiguration<Address>
 {
     public ComplexPropertyBuilder<Address> Configure(ComplexPropertyBuilder<Address> builder)
     {

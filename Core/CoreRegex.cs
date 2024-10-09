@@ -10,4 +10,7 @@ public partial class CoreRegex
     
     [GeneratedRegex("[A-Za-zÁáČčĎďÉéĚěÍíŇňÓóŘřŠšŤťÚúŮůÝýŽž]")]
     public static partial Regex CheckForLettersInCz();
+    
+    [GeneratedRegex("")]
+    public static partial Regex Empty();
 }

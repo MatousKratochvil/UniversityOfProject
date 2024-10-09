@@ -7,11 +7,11 @@ public readonly struct SingleName : IStringValueObject
 {
     public string Value { get; }
 
-    public SingleName(string value, SingleNameValidator validator, [CallerArgumentExpression("value")] string? name = null)
+    public SingleName(string value, SingleNameValidator validator,
+        [CallerArgumentExpression("value")] string? name = null)
     {
         validator(value, name);
-        if (value.Contains(' ', StringComparison.Ordinal))
-            throw new ArgumentException("Name cannot contain spaces.", nameof(value));
+        Guard.ThrowWhenContainsWhiteSpace(value, name);
         Value = value;
     }
 
