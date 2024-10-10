@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Core.EntityFramework.ValueObjects;
 
-public sealed class ZipCodeConverter(ZipCodeValidator validator) :
+public sealed class ZipCodeConverter() :
     ValueConverter<ZipCode, string>(
-        street => street.Value,
-        value => new ZipCode(value, validator, null)
+        zipCode => zipCode.Value,
+        @string => new ZipCode(@string)
     );

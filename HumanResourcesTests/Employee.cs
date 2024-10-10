@@ -6,27 +6,31 @@ namespace HumanResourcesTests;
 public class EmployeeTests
 {
     [Fact]
-    public void Employee_WithValidTitleAndName_ShouldCreateEmployee()
+    public void Employee_WithValidTitleAndNameNoValidations_ShouldCreateEmployee()
     {
         // Arrange
-        var title = new Title("Mr.", BasicValidator);
-        var name = new PersonName(new SingleName("John", BasicValidator), null, new SingleName("Doe", BasicValidator));
-        var address = new Address(new Street("1234 Main St", BasicValidator), new City("Anytown", BasicValidator),
-            new State("ST", BasicValidator), new ZipCode("12345", BasicValidator));
-        var contactInformation = new ContactInformation(new Email("test@test.cz", BasicValidator),
-            new PhoneNumber("123 456 789", BasicValidator));
-
+        var id = new EmployeeId(Guid.NewGuid());
+        var title = new Title("Mr.");
+        var name = new PersonName(
+            new SingleName("John"),
+            null,
+            new SingleName("Doe"));
+        var address = new Address(
+            new Street("1234 Main St"),
+            new City("Anytown"),
+            new State("ST"),
+            new ZipCode("12345"));
+        var contactInformation = new ContactInformation(
+            new Email("test@test.cz"),
+            new PhoneNumber("123 456 789"));
         // Act
-        var employee = new Employee(title, name, address, contactInformation);
+        var employee = new Employee(id, title, name, address, contactInformation);
 
         // Assert
+        Assert.Equal(id, employee.Id);
         Assert.Equal(title, employee.Title);
         Assert.Equal(name, employee.Name);
         Assert.Equal(address, employee.Address);
-    }
-
-    private void BasicValidator(string value, string? propertyname)
-    {
-        // Do nothing
+        Assert.Equal(contactInformation, employee.ContactInformation);
     }
 }

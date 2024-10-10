@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Core.EntityFramework.ValueObjects;
 
-public sealed class StreetConverter(StreetValidator validator) :
+public sealed class StreetConverter() :
     ValueConverter<Street, string>(
         street => street.Value,
-        value => new Street(value, validator, null)
+        @string => new Street(@string)
     );

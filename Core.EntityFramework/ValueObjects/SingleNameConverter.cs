@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Core.EntityFramework.ValueObjects;
 
-public sealed class SingleNameConverter(SingleNameValidator validator) :
+public sealed class SingleNameConverter() :
     ValueConverter<SingleName, string>(
         singleName => singleName.Value,
-        value => new SingleName(value, validator, null)
+        @string => new SingleName(@string)
     );
