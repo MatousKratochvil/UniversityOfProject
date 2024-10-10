@@ -13,8 +13,8 @@ public class ZipCodeTests
     [InlineData("543  21")]
     public void Create_WithValidArguments_ReturnsCityType(string name)
     {
-        var cityNotNull = new ZipCode(name, NotNullValidator(), CoreRegex.CheckForLetters());
-        var cityMinLength = new ZipCode(name, MinLengthValidator(3), CoreRegex.CheckForLetters());
+        var cityNotNull = new ZipCode(name, Validation.NotNullValidator);
+        var cityMinLength = new ZipCode(name, Validation.MinLengthThreeValidator);
 
         Assert.Equal(name, cityNotNull);
         Assert.Equal(name, cityMinLength);
@@ -23,22 +23,11 @@ public class ZipCodeTests
     [Theory]
     [InlineData("12345AaZz")]
     [InlineData("54321AaZz")]
-    public void Create_WithInvalidArguments_LetterCheck_ThrowsArgumentException(string name)
-    {
-        Assert.Throws<ArgumentException>(() => new ZipCode(name, NotNullValidator(), CoreRegex.CheckForLetters()));
-    }
-    
-    [Theory]
     [InlineData("12345ěščřžýáíéúůů")]
     [InlineData("54321ěščřžýáíéúůů")]
     public void Create_WithInvalidArguments_LetterCheckCz_ThrowsArgumentException(string name)
     {
-        Assert.Throws<ArgumentException>(() => new ZipCode(name, NotNullValidator(), CoreRegex.CheckForLettersInCz()));
+        ZipCodeValidator czValidator = (input, propertyName) => Validation.RegexValidator(CoreRegex.CheckForZipCode(), input, propertyName);
+        Assert.Throws<ArgumentException>(() => new ZipCode(name, czValidator));
     }
-
-    private static ZipCodeValidator MinLengthValidator(int i) => (input, _)
-        => Guard.ThrowWhenSmallerLength(input, i);
-
-    private static ZipCodeValidator NotNullValidator() => (input, _)
-        => Guard.ThrowWhenNullOrWhiteSpace(input);
 }

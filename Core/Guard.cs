@@ -1,6 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
-using Core.ValueObjects;
 
 namespace Core;
 
@@ -9,73 +8,59 @@ namespace Core;
 /// </summary>
 public static class Guard
 {
-    public static void ThrowWhenContainsWhiteSpace(string? value,
+    public static void ThrowWhenContainsWhiteSpace(string? value, string? message = null,
         [CallerArgumentExpression("value")] string? name = null)
-        => ThrowWhenContains(value, " ", name);
-    
-    public static void ThrowWhenRegexMatch(string? value, Regex regex,
-        string? message = null,
+        => ThrowWhenContains(value, " ", message, name);
+
+    public static void ThrowWhenRegexNotMatch(string? value, Regex regex, string? message = null,
         [CallerArgumentExpression("value")] string? name = null)
     {
-        if (value is not null && regex.IsMatch(value))
+        if (value is not null && !regex.IsMatch(value))
             throw new ArgumentException(message ?? $"Invalid {name}.", name);
     }
 
-    public static void ThrowWhenContains(string? value, string contains,
+    public static void ThrowWhenContains(string? value, string contains, string? message = null,
         [CallerArgumentExpression("value")] string? name = null)
     {
         if (value is not null && value.Contains(contains, StringComparison.Ordinal))
-            throw new ArgumentException($"{name} must not contain '{contains}'.");
+            throw new ArgumentException(message ?? $"{name} must not contain '{contains}'.");
     }
 
-    public static void ThrowWhenNullOrWhiteSpace(string? value, [CallerArgumentExpression("value")] string? name = null)
+    public static void ThrowWhenNullOrWhiteSpace(string? value, string? message = null,
+        [CallerArgumentExpression("value")] string? name = null)
     {
         if (string.IsNullOrWhiteSpace(value))
-            throw new ArgumentException($"{name} must not be null or empty.");
+            throw new ArgumentException(message ?? $"{name} must not be null or empty.");
     }
 
-    public static void ThrowWhenSmallerLength(string? value, int length,
+    public static void ThrowWhenSmallerLength(string? value, int length, string? message = null,
         [CallerArgumentExpression("value")] string? name = null)
     {
         if (value is null || value.Length < length)
-            throw new ArgumentException($"{name} must be at least {length} characters long.");
+            throw new ArgumentException(message ?? $"{name} must be at least {length} characters long.");
     }
 
-    public static void ThrowWhenSmallerLengthIgnoreNull(string? value, int length,
+    public static void ThrowWhenSmallerLengthIgnoreNull(string? value, int length, string? message = null,
         [CallerArgumentExpression("value")] string? name = null)
     {
         if (value is not null && value.Length < length)
-            throw new ArgumentException($"{name} must be at least {length} characters long.");
+            throw new ArgumentException(message ?? $"{name} must be at least {length} characters long.");
     }
 
-    public static void ThrowWhenOutOfLengthRange(string? value, int minLength, int maxLength,
+    public static void ThrowWhenOutOfLengthRange(string? value, int minLength, int maxLength, string? message = null,
         [CallerArgumentExpression("value")] string? name = null)
     {
         if (value is null || value.Length < minLength || value.Length > maxLength)
-            throw new ArgumentException($"{name} must be between {minLength} and {maxLength} characters long.");
+            throw new ArgumentException(message ??
+                                        $"{name} must be between {minLength} and {maxLength} characters long.");
     }
 
     public static void ThrowWhenOutOfLengthRangeIgnoreNull(string? value, int minLength, int maxLength,
+        string? message = null,
         [CallerArgumentExpression("value")] string? name = null)
     {
         if (value is not null && (value.Length < minLength || value.Length > maxLength))
-            throw new ArgumentException($"{name} must be between {minLength} and {maxLength} characters long.");
+            throw new ArgumentException(message ??
+                                        $"{name} must be between {minLength} and {maxLength} characters long.");
     }
-}
-
-public static class GuardOptional
-{
-    public static OptionalType<string> WhenSmallerLength(string value, int length,
-        [CallerArgumentExpression("value")] string? name = null)
-        =>
-            value.Length < length ? Optional.Empty<string>() : Optional.Of(value);
-
-    public static OptionalType<string> WhenSmallerLengthIgnoreNull(string? value, int length,
-        [CallerArgumentExpression("value")] string? name = null)
-        =>
-            value is not null && value.Length < length
-                ? Optional.Empty<string>()
-                : value is null
-                    ? Optional.Of(string.Empty)
-                    : Optional.Of(value);
 }

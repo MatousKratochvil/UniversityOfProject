@@ -6,5 +6,5 @@ namespace Core.EntityFramework.ValueObjects;
 public sealed class ZipCodeConverter(ZipCodeValidator validator) :
     ValueConverter<ZipCode, string>(
         street => street.Value,
-        value => new ZipCode(value, validator, CoreRegex.Empty(), null)
+        value => new ZipCode(value, validator, null)
     );

@@ -1,5 +1,4 @@
 ﻿using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
 using Core.Abstractions;
 
 namespace Core.ValueObjects;
@@ -8,11 +7,17 @@ public record struct Email : IStringValueObject
 {
     public string Value { get; }
 
-    public Email(string value, EmailValidator validator, Regex emailRegex,
+    public Email(string value, EmailValidator validator,
         [CallerArgumentExpression("value")] string? name = null)
     {
         validator(value, name);
-        Guard.ThrowWhenRegexMatch(value, emailRegex, "Email is not valid", name);
+        Value = value;
+    }
+    
+    public Email(string value)
+    {
+        Guard.ThrowWhenNullOrWhiteSpace(value);
+        Guard.ThrowWhenRegexNotMatch(value, CoreRegex.CheckForEmail());
         Value = value;
     }
 

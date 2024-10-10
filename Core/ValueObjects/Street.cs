@@ -7,9 +7,16 @@ public record struct Street : IStringValueObject
 {
     public string Value { get; }
 
-    public Street(string value, StreetValidator validator, [CallerArgumentExpression("value")] string? name = null)
+    public Street(string value, StreetValidator validator,
+        [CallerArgumentExpression("value")] string? name = null)
     {
         validator(value, name);
+        Value = value;
+    }
+    
+    public Street(string value)
+    {
+        Guard.ThrowWhenNullOrWhiteSpace(value);
         Value = value;
     }
 

@@ -14,6 +14,13 @@ public readonly struct SingleName : IStringValueObject
         Guard.ThrowWhenContainsWhiteSpace(value, name);
         Value = value;
     }
+    
+    public SingleName(string value)
+    {
+        Guard.ThrowWhenNullOrWhiteSpace(value);
+        Guard.ThrowWhenContainsWhiteSpace(value);
+        Value = value;
+    }
 
     public static implicit operator string(SingleName singleName) => singleName.Value;
 }

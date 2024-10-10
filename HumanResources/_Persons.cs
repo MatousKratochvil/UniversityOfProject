@@ -1,11 +1,13 @@
 ﻿using Core;
-using Core.CompositeValueObjects;
 using Core.ValueObjects;
 
 namespace HumanResources;
 
-public sealed record AdministrativeEmployee(PersonTitle Title, PersonName Name, Address Address) : Person(Title, Name, Address);
+public sealed record AdministrativeEmployee(Title Title, PersonName Name, Address Address, ContactInformation ContactInformation) 
+    : Person(Title, Name, Address, ContactInformation);
 
-public sealed record Employee(PersonTitle Title, PersonName Name, Address Address) : Person(Title, Name,Address);
+public sealed record Employee(Title Title, PersonName Name, Address Address, ContactInformation ContactInformation)
+    : Person(Title, Name,Address, ContactInformation);
 
-public sealed record Professor(PersonTitle Title, PersonName Name, Address Address) : Person(Title, Name,Address);
+public sealed record Professor(Title Title, PersonName Name, Address Address, ContactInformation ContactInformation) 
+    : Person(Title, Name,Address, ContactInformation);

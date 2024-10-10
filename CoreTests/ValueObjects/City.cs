@@ -1,5 +1,4 @@
-﻿using Core;
-using Core.ValueObjects;
+﻿using Core.ValueObjects;
 
 namespace CoreTests.ValueObjects;
 
@@ -10,8 +9,8 @@ public class CityTests
     [InlineData("Los Angeles")]
     public void Create_WithValidArguments_ReturnsCityType(string name)
     {
-        var cityNotNull = new City(name, NotNullValidator());
-        var cityMinLength = new City(name, MinLengthValidator(3));
+        var cityNotNull = new City(name, Validation.NotNullValidator);
+        var cityMinLength = new City(name, Validation.NotNullValidator);
 
         Assert.Equal(name, cityNotNull);
         Assert.Equal(name, cityMinLength);
@@ -23,7 +22,7 @@ public class CityTests
     [InlineData(null)]
     public void Create_WithInvalidArguments_NotNull_ThrowsArgumentException(string name)
     {
-        Assert.Throws<ArgumentException>(() => new City(name, NotNullValidator()));
+        Assert.Throws<ArgumentException>(() => new City(name, Validation.NotNullValidator));
     }
 
     [Theory]
@@ -31,12 +30,7 @@ public class CityTests
     [InlineData("Los Angeles", 12)]
     public void Create_WithInvalidArguments_MinLength_ThrowsArgumentException(string name, int min)
     {
-        Assert.Throws<ArgumentException>(() => new City(name, MinLengthValidator(min)));
+        CityValidator validator = (input, propertyName) => Validation.MinLengthValidator(input, min, propertyName);
+        Assert.Throws<ArgumentException>(() => new City(name, validator));
     }
-
-    private static CityValidator NotNullValidator() => (input, _)
-        => Guard.ThrowWhenNullOrWhiteSpace(input);
-
-    private static CityValidator MinLengthValidator(int min) => (input, _)
-        => Guard.ThrowWhenSmallerLength(input, min);
 }

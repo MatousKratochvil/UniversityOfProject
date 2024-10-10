@@ -1,5 +1,3 @@
-using Core;
-using Core.CompositeValueObjects;
 using Core.ValueObjects;
 using HumanResources;
 
@@ -11,13 +9,15 @@ public class EmployeeTests
     public void Employee_WithValidTitleAndName_ShouldCreateEmployee()
     {
         // Arrange
-        var title = new PersonTitle("Mr.", BasicValidator);
-        var name = new PersonName(new SingleName("John", BasicValidator), new SingleName("Doe", BasicValidator));
+        var title = new Title("Mr.", BasicValidator);
+        var name = new PersonName(new SingleName("John", BasicValidator), null, new SingleName("Doe", BasicValidator));
         var address = new Address(new Street("1234 Main St", BasicValidator), new City("Anytown", BasicValidator),
-            new AddressState("ST", BasicValidator), new ZipCode("12345", BasicValidator, CoreRegex.CheckForLetters()));
+            new State("ST", BasicValidator), new ZipCode("12345", BasicValidator));
+        var contactInformation = new ContactInformation(new Email("test@test.cz", BasicValidator),
+            new PhoneNumber("123 456 789", BasicValidator));
 
         // Act
-        var employee = new Employee(title, name, address);
+        var employee = new Employee(title, name, address, contactInformation);
 
         // Assert
         Assert.Equal(title, employee.Title);
