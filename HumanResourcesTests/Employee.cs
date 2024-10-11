@@ -1,5 +1,6 @@
+using Core;
 using Core.ValueObjects;
-using HumanResources;
+using HumanResources.Entities;
 
 namespace HumanResourcesTests;
 
@@ -21,18 +22,20 @@ public class EmployeeTests
             new City("Anytown"),
             new State("ST"),
             new ZipCode("12345"));
+        var personIdentification = new PersonIdentification(
+            new BirthDate(new DateTime(2000, 1, 1)),
+            new PersonalIdentificationNumber("123456789"));
         var contactInformation = new ContactInformation(
             new Email("test@test.cz"),
             new PhoneNumber("123 456 789"));
+
+        var person = new Person(title, name, personIdentification, address, contactInformation);
         // Act
-        var employee = new RegularEmployee(id, employeeNumber, title, name, address, contactInformation);
+        var employee = new RegularEmployee(id, person, null);
 
         // Assert
         Assert.Equal(id, employee.Id);
-        Assert.Equal(employeeNumber, employee.EmployeeNumber);
-        Assert.Equal(title, employee.Title);
-        Assert.Equal(name, employee.Name);
-        Assert.Equal(address, employee.Address);
-        Assert.Equal(contactInformation, employee.ContactInformation);
+        Assert.Equal(person, employee.Person);
+        
     }
 }

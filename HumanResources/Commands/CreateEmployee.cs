@@ -1,19 +1,13 @@
 ﻿using Core.Abstractions;
-using Core.ValueObjects;
 using HumanResources.Abstractions;
+using HumanResources.Entities;
 using MediatR;
 
 namespace HumanResources.Commands;
 
-public sealed record CreateEmployeeRequest : IRequest<CreateEmployeeResponse>
-{
-    public required EmployeePrimitiveValues PrimitiveValues { get; init; }
-}
+public sealed record CreateEmployeeRequest(EmployeePrimitiveValues PrimitiveValues) : IRequest<CreateEmployeeResponse>;
 
-public sealed record CreateEmployeeResponse
-{
-    public Guid Id { get; set; }
-}
+public sealed record CreateEmployeeResponse(EmployeeId Id);
 
 internal sealed class CreateEmployeeRequestHandler(
     IHumanResourcesDbContext context,
@@ -28,6 +22,6 @@ internal sealed class CreateEmployeeRequestHandler(
         context.Employees.Add(employee);
         await context.SaveChangesAsync(cancellationToken);
 
-        return new CreateEmployeeResponse { Id = employee.Id };
+        return new CreateEmployeeResponse(employee.Id);
     }
 }

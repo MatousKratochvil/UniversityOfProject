@@ -25,6 +25,20 @@ public static class Guard
         if (value is not null && value.Contains(contains, StringComparison.Ordinal))
             throw new ArgumentException(message ?? $"{name} must not contain '{contains}'.");
     }
+    
+    public static void ThrowWhenDefault<T>(T value, string? message = null,
+        [CallerArgumentExpression("value")] string? name = null)
+    {
+        if (EqualityComparer<T>.Default.Equals(value, default))
+            throw new ArgumentException(message ?? $"{name} must not be the default value.");
+    }
+    
+    public static void ThrowWhenNullOrDefault<T>(T? value, string? message = null,
+        [CallerArgumentExpression("value")] string? name = null)
+    {
+        if (value is null || EqualityComparer<T>.Default.Equals(value, default))
+            throw new ArgumentException(message ?? $"{name} must not be null or the default value.");
+    }
 
     public static void ThrowWhenNullOrWhiteSpace(string? value, string? message = null,
         [CallerArgumentExpression("value")] string? name = null)

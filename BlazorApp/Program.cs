@@ -1,4 +1,8 @@
+using System.Globalization;
 using BlazorApp.Components;
+using Core.Abstractions;
+using HumanResources;
+using HumanResources.EntityFramework;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,7 +10,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+builder.Services.AddScoped<IUserContext, EmptyUserContext>();
+
+builder.Services
+    .AddHumanResources()
+    .AddHumanResourcesEntityFramework(builder.Configuration);
+
 var app = builder.Build();
+
+app.MigrateHumanResourcesDatabase();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -25,3 +37,8 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
 app.Run();
+
+public class EmptyUserContext : IUserContext
+{
+    public CultureInfo Culture { get; } = new("en-US");
+}

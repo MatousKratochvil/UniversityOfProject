@@ -1,4 +1,5 @@
 ﻿using Core.EntityFramework.Common;
+using Core.EntityFramework.ValueObjects;
 using Core.ValueObjects;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,10 +10,12 @@ public sealed class ContactInformationConfiguration : IComplexPropertyConfigurat
     public ComplexPropertyBuilder<ContactInformation> Configure(ComplexPropertyBuilder<ContactInformation> builder)
     {
         builder.Property(x => x.Email)
+            .HasConversion<EmailConverter>()
             .HasMaxLength(50)
             .IsRequired();
 
         builder.Property(x => x.PhoneNumber)
+            .HasConversion<PhoneNumberConverter>()
             .HasMaxLength(50)
             .IsRequired();
 

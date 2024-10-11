@@ -1,25 +1,37 @@
 ﻿using Core.EntityFramework;
 using Core.Persistence.Abstractions;
 using HumanResources.Abstractions;
+using HumanResources.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace HumanResources.EntityFramework;
 
-internal class HumanResourcesContext : DbContext, IHumanResourcesDbContext
+internal class HumanResourcesContext(DbContextOptions options) : DbContextBase(options), IHumanResourcesDbContext
 {
     internal DbSet<Employee> EmployeesSet { get; set; }
-    internal DbSet<AdministrativeEmployee> AdministrativeEmployeesSet { get; set; }
-    internal DbSet<Professor> ProfessorsSet { get; set; }
+
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+    }
 
     public IWriteRepository<Employee> Employees => new WriteRepository<Employee>(EmployeesSet);
     public IReadRepository<Employee> ReadEmployees => new ReadRepository<Employee>(EmployeesSet);
 
-    public IWriteRepository<AdministrativeEmployee> AdministrativeEmployees =>
-        new WriteRepository<AdministrativeEmployee>(AdministrativeEmployeesSet);
+    protected override void ConfigureContext(ModelBuilder configurationBuilder)
+    {
+        configurationBuilder.ApplyConfigurationsFromAssembly(typeof(HumanResourcesContext).Assembly);
+    }
+}
 
-    public IReadRepository<AdministrativeEmployee> ReadAdministrativeEmployees =>
-        new ReadRepository<AdministrativeEmployee>(AdministrativeEmployeesSet);
+internal class HumanResourcesContextFactory : IDesignTimeDbContextFactory<HumanResourcesContext>
+{
+    public HumanResourcesContext CreateDbContext(string[] args)
+    {
+        var options = new DbContextOptionsBuilder<HumanResourcesContext>()
+            .UseSqlite("Data Source=DesignTimeDbContextFactory.db")
+            .Options;
 
-    public IWriteRepository<Professor> Professors => new WriteRepository<Professor>(ProfessorsSet);
-    public IReadRepository<Professor> ReadProfessors => new ReadRepository<Professor>(ProfessorsSet);
+        return new HumanResourcesContext(options);
+    }
 }

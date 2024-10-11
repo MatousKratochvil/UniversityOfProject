@@ -1,8 +1,12 @@
-﻿namespace HumanResources.Abstractions;
+﻿using Core;
+using HumanResources.Entities;
+
+namespace HumanResources.Abstractions;
 
 public interface IHumanResourceFactory
 {
     Employee CreateEmployee(EmployeePrimitiveValues primitiveValues);
+    Person CreatePerson(EmployeePrimitiveValues primitiveValues);
 }
 
 public readonly record struct EmployeePrimitiveValues
@@ -17,4 +21,6 @@ public readonly record struct EmployeePrimitiveValues
     public string ZipCode { get; init; }
     public string PhoneNumber { get; init; }
     public string Email { get; init; }
+    public string PersonalIdentificationNumber { get; init; }
+    public DateTime BirthDate { get; init; }
 }
