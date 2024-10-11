@@ -18,7 +18,7 @@ internal class HumanResourceFactory : IHumanResourceFactory
 
     public Person CreatePerson(EmployeePrimitiveValues primitiveValues) =>
         new(
-            null,
+            new Title(primitiveValues.Title),
             new PersonName(new SingleName(primitiveValues.FirstName), null, new SingleName(primitiveValues.LastName)),
             new PersonIdentification(new BirthDate(primitiveValues.BirthDate),
                 new PersonalIdentificationNumber(primitiveValues.PersonalIdentificationNumber)),

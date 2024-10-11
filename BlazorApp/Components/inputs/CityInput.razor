@@ -1,0 +1,48 @@
+﻿@using Core.ValueObjects
+
+<InputText @bind-Value="_cityValue" class="form-control" @oninput="HandleInputChange"/>
+@if (!_isValid && _isDirty)
+{
+    <div class="text-danger">@_errorMessage</div>
+}
+
+@code {
+    private string _cityValue = string.Empty;
+    private string _errorMessage = "Invalid city";
+    private bool _isDirty;
+    private bool _isValid;
+
+    [Parameter] public City Value { get; set; }
+
+    [Parameter] public EventCallback<City> ValueChanged { get; set; }
+
+    [Parameter] public CityValidator Validator { get; set; } = (_, _) => { };
+
+    [Parameter] public string PropertyName { get; set; } = nameof(City.Value);
+
+    private void HandleFocus() => _isDirty = true;
+
+    private void HandleInputChange(ChangeEventArgs e)
+    {
+        _cityValue = e.Value?.ToString() ?? string.Empty;
+        _isDirty = true;
+        _isValid = true;
+        try
+        {
+            var newCity = new City(_cityValue, Validator);
+            ValueChanged.InvokeAsync(newCity);
+        }
+        catch (Exception ex)
+        {
+            _isValid = false;
+            _errorMessage = ex.Message;
+            Console.WriteLine($"Validation error: {ex.Message}");
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        _cityValue = Value.Value;
+    }
+
+}
