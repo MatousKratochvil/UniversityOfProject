@@ -2,5 +2,5 @@
 
 public interface IStringValueObject : IValueObject
 {
-    string Value { get; }
+	string Value { get; }
 }

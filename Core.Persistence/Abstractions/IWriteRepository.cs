@@ -2,5 +2,5 @@
 
 public interface IWriteRepository<in T> where T : class
 {
-    void Add(T employee);
+	void Add(T employee);
 }

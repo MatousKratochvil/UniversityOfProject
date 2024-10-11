@@ -7,18 +7,18 @@ namespace Core.EntityFramework;
 
 public sealed class PersonIdentificationConfiguration : IComplexPropertyConfiguration<PersonIdentification>
 {
-    public ComplexPropertyBuilder<PersonIdentification> Configure(ComplexPropertyBuilder<PersonIdentification> builder)
-    {
-        builder.Property(x => x.BirthDate)
-            .HasConversion<BirthDateConverter>()
-            .HasMaxLength(10)
-            .IsRequired();
+	public ComplexPropertyBuilder<PersonIdentification> Configure(ComplexPropertyBuilder<PersonIdentification> builder)
+	{
+		builder.Property(x => x.BirthDate)
+			.HasConversion<BirthDateConverter>()
+			.HasMaxLength(10)
+			.IsRequired();
 
-        builder.Property(x => x.PersonalIdentificationNumber)
-            .HasConversion<PersonalIdentificationNumberConverter>()
-            .HasMaxLength(20)
-            .IsRequired();
+		builder.Property(x => x.PersonalIdentificationNumber)
+			.HasConversion<PersonalIdentificationNumberConverter>()
+			.HasMaxLength(20)
+			.IsRequired();
 
-        return builder;
-    }
+		return builder;
+	}
 }

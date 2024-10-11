@@ -2,5 +2,5 @@
 
 public interface IDateValueObject : IValueObject
 {
-    DateTime Value { get; }
+	DateTime Value { get; }
 }

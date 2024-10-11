@@ -11,20 +11,20 @@ public sealed record CreateEmployeeRequest(EmployeePrimitiveValues PrimitiveValu
 public sealed record CreateEmployeeResponse(EmployeeId Id);
 
 internal sealed class CreateEmployeeRequestHandler(
-    IPublisher publisher,
-    IHumanResourcesDbContext context,
-    IHumanResourceFactory factory,
-    IUserContext userContext)
-    : IRequestHandler<CreateEmployeeRequest, CreateEmployeeResponse>
+	IPublisher publisher,
+	IHumanResourcesDbContext context,
+	IHumanResourceFactory factory,
+	IUserContext userContext)
+	: IRequestHandler<CreateEmployeeRequest, CreateEmployeeResponse>
 {
-    public async Task<CreateEmployeeResponse> Handle(CreateEmployeeRequest request, CancellationToken cancellationToken)
-    {
-        var employee = factory.CreateEmployee(request.PrimitiveValues);
+	public async Task<CreateEmployeeResponse> Handle(CreateEmployeeRequest request, CancellationToken cancellationToken)
+	{
+		var employee = factory.CreateEmployee(request.PrimitiveValues);
 
-        context.Employees.Add(employee);
-        await context.SaveChangesAsync(cancellationToken);
+		context.Employees.Add(employee);
+		await context.SaveChangesAsync(cancellationToken);
 
-        await publisher.Publish(new EmployeeCreated(employee, userContext.User), cancellationToken);
-        return new CreateEmployeeResponse(employee.Id);
-    }
+		await publisher.Publish(new EmployeeCreated(employee, userContext.User), cancellationToken);
+		return new CreateEmployeeResponse(employee.Id);
+	}
 }

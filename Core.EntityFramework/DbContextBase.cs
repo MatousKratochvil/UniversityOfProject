@@ -4,10 +4,10 @@ namespace Core.EntityFramework;
 
 public abstract class DbContextBase(DbContextOptions options) : DbContext(options)
 {
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        ConfigureContext(modelBuilder);
-    }
+	protected override void OnModelCreating(ModelBuilder modelBuilder)
+	{
+		ConfigureContext(modelBuilder);
+	}
 
-    protected abstract void ConfigureContext(ModelBuilder configurationBuilder);
+	protected abstract void ConfigureContext(ModelBuilder configurationBuilder);
 }

@@ -7,18 +7,18 @@ namespace Core.EntityFramework;
 
 public sealed class ContactInformationConfiguration : IComplexPropertyConfiguration<ContactInformation>
 {
-    public ComplexPropertyBuilder<ContactInformation> Configure(ComplexPropertyBuilder<ContactInformation> builder)
-    {
-        builder.Property(x => x.Email)
-            .HasConversion<EmailConverter>()
-            .HasMaxLength(50)
-            .IsRequired();
+	public ComplexPropertyBuilder<ContactInformation> Configure(ComplexPropertyBuilder<ContactInformation> builder)
+	{
+		builder.Property(x => x.Email)
+			.HasConversion<EmailConverter>()
+			.HasMaxLength(50)
+			.IsRequired();
 
-        builder.Property(x => x.PhoneNumber)
-            .HasConversion<PhoneNumberConverter>()
-            .HasMaxLength(50)
-            .IsRequired();
+		builder.Property(x => x.PhoneNumber)
+			.HasConversion<PhoneNumberConverter>()
+			.HasMaxLength(50)
+			.IsRequired();
 
-        return builder;
-    }
+		return builder;
+	}
 }

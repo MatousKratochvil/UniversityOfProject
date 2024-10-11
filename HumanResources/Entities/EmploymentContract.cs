@@ -18,11 +18,13 @@ public sealed class TemporaryContract(
 	EmploymentContractId id,
 	EmployeeId employeeId,
 	Employee employee,
+	DepartmentId departmentId,
+	Department department,
 	Period period)
-	: EmploymentContract(id, employeeId, employee, period)
+	: EmploymentContract(id, employeeId, employee, departmentId, department, period)
 {
 	private TemporaryContract()
-		: this(default, default, default, default)
+		: this(default, default, default, default, default, default)
 	{
 	}
 }
@@ -31,11 +33,13 @@ public sealed class PermanentContract(
 	EmploymentContractId id,
 	EmployeeId employeeId,
 	Employee employee,
+	DepartmentId departmentId,
+	Department department,
 	Period period)
-	: EmploymentContract(id, employeeId, employee, period)
+	: EmploymentContract(id, employeeId, employee, departmentId, department, period)
 {
 	private PermanentContract()
-		: this(default, default, default, default)
+		: this(default, default, default, default, default, default)
 	{
 	}
 }
@@ -44,12 +48,16 @@ public abstract class EmploymentContract(
 	EmploymentContractId id,
 	EmployeeId employeeId,
 	Employee employee,
+	DepartmentId departmentId,
+	Department department,
 	Period period)
 	: IEntity<EmploymentContractId, Guid>
-{
+{ 
 	public EmploymentContractId Id { get; } = id;
 	public EmployeeId EmployeeId { get; } = employeeId;
 	public Employee Employee { get; } = employee;
+	public DepartmentId DepartmentId { get; } = departmentId;
+	public Department Department { get; } = department;
 	public Period Period { get; } = period;
 
 	// public decimal BaseSalary { get; init; }

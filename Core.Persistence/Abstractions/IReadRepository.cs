@@ -2,6 +2,5 @@
 
 public interface IReadRepository<out T> where T : class
 {
-    IQueryable<T> Query();
+	IQueryable<T> Query();
 }
-    

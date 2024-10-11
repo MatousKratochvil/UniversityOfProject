@@ -12,7 +12,7 @@ public class PeriodConfiguration : IComplexPropertyConfiguration<Period>
 		builder.Property(x => x.Start)
 			.HasConversion<PastDateCoverter>()
 			.IsRequired();
-		
+
 		builder.Property(x => x.End)
 			.HasConversion<FutureDateConverter>()
 			.IsRequired();

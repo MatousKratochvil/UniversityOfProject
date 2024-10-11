@@ -2,5 +2,5 @@
 
 public interface IFormatter<in T>
 {
-    string Format(T obj);
+	string Format(T obj);
 }
