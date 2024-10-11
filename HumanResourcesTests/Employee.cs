@@ -1,4 +1,4 @@
-using Core;
+using Core.ComplexObjects;
 using Core.ValueObjects;
 using HumanResources.Entities;
 

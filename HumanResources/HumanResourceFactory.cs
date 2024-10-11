@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using Core;
+﻿using Core.ComplexObjects;
 using Core.ValueObjects;
 using HumanResources.Abstractions;
 using HumanResources.Entities;

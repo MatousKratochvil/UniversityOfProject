@@ -1,4 +1,4 @@
-﻿using Core;
+﻿using Core.ComplexObjects;
 using Core.Persistence.Abstractions;
 
 namespace HumanResources.Entities;

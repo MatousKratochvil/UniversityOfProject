@@ -1,6 +1,6 @@
-﻿using Core.EntityFramework.Common;
+﻿using Core.ComplexObjects;
+using Core.EntityFramework.Common;
 using Core.EntityFramework.ValueObjects;
-using Core.ValueObjects;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Core.EntityFramework;

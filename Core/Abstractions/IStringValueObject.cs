@@ -1,6 +1,6 @@
 ﻿namespace Core.Abstractions;
 
-public interface IStringValueObject
+public interface IStringValueObject : IValueObject
 {
     string Value { get; }
 }

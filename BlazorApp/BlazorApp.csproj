@@ -18,6 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Core.EmptyObject\Core.EmptyObject.csproj" />
       <ProjectReference Include="..\HumanResources.EntityFramework\HumanResources.EntityFramework.csproj" />
     </ItemGroup>
 

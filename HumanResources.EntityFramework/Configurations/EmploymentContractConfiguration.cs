@@ -1,4 +1,5 @@
-﻿using Core.EntityFramework.Common;
+﻿using Core.EntityFramework;
+using Core.EntityFramework.Common;
 using HumanResources.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -18,5 +19,7 @@ public class EmploymentContractConfiguration : IEntityTypeConfiguration<Employme
         builder.Property(x => x.Id)
             .HasConversion<EntityIdentityConverter<EmploymentContractId, Guid>>()
             .ValueGeneratedOnAdd();
+
+        builder.ComplexProperty(x => x.Period).Configure(new PeriodConfiguration());
     }
 }

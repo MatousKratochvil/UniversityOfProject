@@ -25,14 +25,14 @@ public static class Guard
         if (value is not null && value.Contains(contains, StringComparison.Ordinal))
             throw new ArgumentException(message ?? $"{name} must not contain '{contains}'.");
     }
-    
+
     public static void ThrowWhenDefault<T>(T value, string? message = null,
         [CallerArgumentExpression("value")] string? name = null)
     {
         if (EqualityComparer<T>.Default.Equals(value, default))
             throw new ArgumentException(message ?? $"{name} must not be the default value.");
     }
-    
+
     public static void ThrowWhenNullOrDefault<T>(T? value, string? message = null,
         [CallerArgumentExpression("value")] string? name = null)
     {
@@ -76,5 +76,47 @@ public static class Guard
         if (value is not null && (value.Length < minLength || value.Length > maxLength))
             throw new ArgumentException(message ??
                                         $"{name} must be between {minLength} and {maxLength} characters long.");
+    }
+
+    public static void ThrowWhenGreaterThen<T>(T value, T comparable) where T : IComparable<T> =>
+        ThrowWhenGreaterThen(value, comparable, "The value must not be greater than the comparable value.");
+
+    public static void ThrowWhenGreaterThen<T>(T value, T comparable, string? message = null,
+        [CallerArgumentExpression("value")] string? name = null) where T : IComparable<T>
+    {
+        if (value.CompareTo(comparable) > 0)
+            throw new ArgumentException(message ?? $"{name} must not be greater than {comparable}.");
+    }
+
+    public static void ThrowWhenGreaterOrEqualThen<T>(T value, T comparable) where T : IComparable<T> =>
+        ThrowWhenGreaterOrEqualThen(value, comparable,
+            "The value must not be greater or equal than the comparable value.");
+
+    public static void ThrowWhenGreaterOrEqualThen<T>(T value, T comparable, string? message = null,
+        [CallerArgumentExpression("value")] string? name = null) where T : IComparable<T>
+    {
+        if (value.CompareTo(comparable) >= 0)
+            throw new ArgumentException(message ?? $"{name} must not be greater or equal than {comparable}.");
+    }
+
+    public static void ThrowWhenSmallerThen<T>(T value, T comparable) where T : IComparable<T> =>
+        ThrowWhenSmallerThen(value, comparable, "The value must not be smaller than the comparable value.");
+
+    public static void ThrowWhenSmallerThen<T>(T value, T comparable, string? message = null,
+        [CallerArgumentExpression("value")] string? name = null) where T : IComparable<T>
+    {
+        if (value.CompareTo(comparable) < 0)
+            throw new ArgumentException(message ?? $"{name} must not be smaller than {comparable}.");
+    }
+
+    public static void ThrowWhenSmallerOrEqualThen<T>(T value, T comparable) where T : IComparable<T> =>
+        ThrowWhenSmallerOrEqualThen(value, comparable,
+            "The value must not be smaller or equal than the comparable value.");
+
+    public static void ThrowWhenSmallerOrEqualThen<T>(T value, T comparable, string? message = null,
+        [CallerArgumentExpression("value")] string? name = null) where T : IComparable<T>
+    {
+        if (value.CompareTo(comparable) <= 0)
+            throw new ArgumentException(message ?? $"{name} must not be smaller or equal than {comparable}.");
     }
 }

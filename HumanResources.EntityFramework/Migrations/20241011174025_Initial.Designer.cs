@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HumanResources.EntityFramework.Migrations
 {
     [DbContext(typeof(HumanResourcesContext))]
-    [Migration("20241011143233_Initial")]
+    [Migration("20241011174025_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -98,12 +98,12 @@ namespace HumanResources.EntityFramework.Migrations
                                 {
                                     b2.IsRequired();
 
-                                    b2.Property<string>("FirstSingleName")
+                                    b2.Property<string>("FirstName")
                                         .IsRequired()
                                         .HasMaxLength(50)
                                         .HasColumnType("TEXT");
 
-                                    b2.Property<string>("LastSingleName")
+                                    b2.Property<string>("LastName")
                                         .IsRequired()
                                         .HasMaxLength(50)
                                         .HasColumnType("TEXT");

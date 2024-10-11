@@ -5,4 +5,5 @@ namespace Core.Abstractions;
 public interface IUserContext
 {
     CultureInfo Culture { get; }
+    User User { get; }
 }

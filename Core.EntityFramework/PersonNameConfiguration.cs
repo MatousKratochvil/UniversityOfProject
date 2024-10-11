@@ -1,7 +1,6 @@
-﻿using System.ComponentModel;
+﻿using Core.ComplexObjects;
 using Core.EntityFramework.Common;
 using Core.EntityFramework.ValueObjects;
-using Core.ValueObjects;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Core.EntityFramework;
@@ -10,7 +9,7 @@ public sealed class PersonNameConfiguration : IComplexPropertyConfiguration<Pers
 {
     public ComplexPropertyBuilder<PersonName> Configure(ComplexPropertyBuilder<PersonName> builder)
     {
-        builder.Property(x => x.FirstSingleName)
+        builder.Property(x => x.FirstName)
             .HasConversion<SingleNameConverter>()
             .HasMaxLength(50)
             .IsRequired();
@@ -19,7 +18,7 @@ public sealed class PersonNameConfiguration : IComplexPropertyConfiguration<Pers
             .HasConversion<SingleNameConverter>()
             .HasMaxLength(50);
 
-        builder.Property(x => x.LastSingleName)
+        builder.Property(x => x.LastName)
             .HasConversion<SingleNameConverter>()
             .HasMaxLength(50)
             .IsRequired();

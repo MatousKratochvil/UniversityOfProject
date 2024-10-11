@@ -1,6 +1,6 @@
 ﻿namespace Core.Abstractions;
 
-public interface IDateValueObject
+public interface IDateValueObject : IValueObject
 {
     DateTime Value { get; }
 }

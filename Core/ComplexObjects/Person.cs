@@ -1,6 +1,7 @@
-﻿using Core.ValueObjects;
+﻿using Core.Abstractions;
+using Core.ValueObjects;
 
-namespace Core;
+namespace Core.ComplexObjects;
 
 public sealed record Person(
     Title? Title,
@@ -8,7 +9,7 @@ public sealed record Person(
     PersonIdentification Identification,
     Address Address,
     ContactInformation ContactInformation
-)
+) : IComplexObject
 {
     private Person() : this(default!, default!, default!, default!, default!)
     {

@@ -1,6 +1,6 @@
-using System.Globalization;
 using BlazorApp.Components;
 using Core.Abstractions;
+using Core.EmptyObject;
 using HumanResources;
 using HumanResources.EntityFramework;
 
@@ -10,7 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddScoped<IUserContext, EmptyUserContext>();
+builder.Services.AddScoped<IUserContext, TestUserContext>();
+
+// TODO: smazat az budu mit nejake service
+builder.Services.AddEmptyObject();
 
 builder.Services
     .AddHumanResources()
@@ -37,8 +40,3 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
 app.Run();
-
-public class EmptyUserContext : IUserContext
-{
-    public CultureInfo Culture { get; } = new("en-US");
-}

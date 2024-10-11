@@ -1,4 +1,4 @@
-﻿using Core;
+﻿using Core.ComplexObjects;
 using HumanResources.Entities;
 
 namespace HumanResources.Abstractions;

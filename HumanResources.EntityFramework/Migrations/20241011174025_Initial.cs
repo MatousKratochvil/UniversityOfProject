@@ -26,8 +26,8 @@ namespace HumanResources.EntityFramework.Migrations
                     Person_ContactInformation_PhoneNumber = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     Person_Identification_BirthDate = table.Column<int>(type: "INTEGER", maxLength: 10, nullable: false),
                     Person_Identification_PersonalIdentificationNumber = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
-                    Person_Name_FirstSingleName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
-                    Person_Name_LastSingleName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    Person_Name_FirstName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    Person_Name_LastName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     Person_Name_MiddleName = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true)
                 },
                 constraints: table =>

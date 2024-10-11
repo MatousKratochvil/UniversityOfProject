@@ -13,8 +13,7 @@ public static class Injections
     {
         services.AddDbContextPool<IHumanResourcesDbContext, HumanResourcesContext>(opt =>
         {
-            opt.UseSqlite("Data Source=HumanResources.db");
-            //configuration.GetConnectionString("HumanResources"));
+            opt.UseSqlite(configuration.GetConnectionString("HumanResources"));
         });
         return services;
     }
@@ -24,7 +23,15 @@ public static class Injections
         using var scope = host.Services.CreateScope();
         var services = scope.ServiceProvider;
         var context = services.GetRequiredService<HumanResourcesContext>();
-        context.Database.Migrate();
+        try
+        {
+            context.Database.Migrate();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+
         return host;
     }
 }
