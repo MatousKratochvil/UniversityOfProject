@@ -1,5 +1,6 @@
 ﻿using Core.ComplexObjects;
 using Core.Persistence.Abstractions;
+using Core.Representations;
 
 namespace HumanResources.Entities;
 
@@ -87,7 +88,13 @@ public abstract class EmploymentContract : IEntity<EmploymentContractId, Guid>
 	public DepartmentId DepartmentId { get; set; }
 	public Department Department { get; set; } = null!;
 	public Period Period { get; set; } = null!;
-
+	
+	private PeriodRepresentation PeriodRepresentation
+	{
+		get => Period.ToRepresentation();
+		set => Period = value.ToPeriod();
+	}
+	
 	// public decimal BaseSalary { get; init; }
 	// public decimal? Bonus { get; init; }
 	// public string Position { get; init; }

@@ -1,5 +1,6 @@
 ﻿using Core.EntityFramework;
 using Core.EntityFramework.Common;
+using Core.Representations;
 using HumanResources.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -19,7 +20,7 @@ public class EmploymentContractConfiguration : IEntityTypeConfiguration<Employme
 		builder.Property(x => x.Id)
 			.HasConversion<EntityIdentityConverter<EmploymentContractId, Guid>>()
 			.ValueGeneratedOnAdd();
-		
+
 		builder.HasOne(x => x.Employee)
 			.WithOne(x => x.Contract)
 			.HasForeignKey<EmploymentContract>(x => x.EmployeeId);
@@ -28,6 +29,9 @@ public class EmploymentContractConfiguration : IEntityTypeConfiguration<Employme
 			.WithOne()
 			.HasForeignKey<EmploymentContract>(x => x.DepartmentId);
 
-		builder.ComplexProperty(x => x.Period).Configure(new PeriodConfiguration());
+		builder.Ignore(x => x.Period);
+		builder.ComplexProperty<PeriodRepresentation>("PeriodRepresentation")
+			.Configure(new PeriodRepresentationConfiguration())
+			.UsePropertyAccessMode(PropertyAccessMode.Property);
 	}
 }
