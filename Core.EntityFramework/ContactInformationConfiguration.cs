@@ -9,6 +9,8 @@ public sealed class ContactInformationConfiguration : IComplexPropertyConfigurat
 {
 	public ComplexPropertyBuilder<ContactInformation> Configure(ComplexPropertyBuilder<ContactInformation> builder)
 	{
+		builder.ComplexProperty(x => x.Address).Configure(new AddressConfiguration());
+
 		builder.Property(x => x.Email)
 			.HasConversion<EmailConverter>()
 			.HasMaxLength(50)

@@ -6,18 +6,18 @@ using MediatR;
 
 namespace HumanResources.Commands;
 
-public sealed record CreateEmployeeRequest(EmployeePrimitiveValues PrimitiveValues) : IRequest<CreateEmployeeResponse>;
+public sealed record EmployeeCreateRequest(EmployeePrimitiveValues PrimitiveValues) : IRequest<EmployeeCreateResponse>;
 
-public sealed record CreateEmployeeResponse(EmployeeId Id);
+public sealed record EmployeeCreateResponse(EmployeeId Id);
 
-internal sealed class CreateEmployeeRequestHandler(
+internal sealed class EmployeeCreateRequestHandler(
 	IPublisher publisher,
 	IHumanResourcesDbContext context,
 	IHumanResourceFactory factory,
 	IUserContext userContext)
-	: IRequestHandler<CreateEmployeeRequest, CreateEmployeeResponse>
+	: IRequestHandler<EmployeeCreateRequest, EmployeeCreateResponse>
 {
-	public async Task<CreateEmployeeResponse> Handle(CreateEmployeeRequest request, CancellationToken cancellationToken)
+	public async Task<EmployeeCreateResponse> Handle(EmployeeCreateRequest request, CancellationToken cancellationToken)
 	{
 		var employee = factory.CreateEmployee(request.PrimitiveValues);
 
@@ -25,6 +25,6 @@ internal sealed class CreateEmployeeRequestHandler(
 		await context.SaveChangesAsync(cancellationToken);
 
 		await publisher.Publish(new EmployeeCreated(employee, userContext.User), cancellationToken);
-		return new CreateEmployeeResponse(employee.Id);
+		return new EmployeeCreateResponse(employee.Id);
 	}
 }

@@ -46,12 +46,12 @@
             PersonalIdentificationNumber = "123454",
         };
 
-        return Mediator.Send(new CreateEmployeeRequest(primitiveValues));
+        return Mediator.Send(new EmployeeCreateRequest(primitiveValues));
     }
 
     private async Task GetEmployee()
     {
-        var response = await Mediator.Send(new DetailEmployeeQuery(new EmployeeId("31049C86-CEB9-4D00-AC4D-01E5FD2C92AC")));
+        var response = await Mediator.Send(new EmployeeDetailQuery(new EmployeeId("31049C86-CEB9-4D00-AC4D-01E5FD2C92AC")));
 
         var i = 0;
     }

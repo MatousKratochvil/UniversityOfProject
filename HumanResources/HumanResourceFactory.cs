@@ -65,7 +65,7 @@ internal class HumanResourceFactory : IHumanResourceFactory
 			new PersonName(new SingleName(primitiveValues.FirstName), null, new SingleName(primitiveValues.LastName)),
 			new PersonIdentification(new BirthDate(primitiveValues.BirthDate),
 				new PersonalIdentificationNumber(primitiveValues.PersonalIdentificationNumber)),
-			new Address(new Street(primitiveValues.Street), new City(primitiveValues.City),
-				new State(primitiveValues.State), new ZipCode(primitiveValues.ZipCode)),
-			new ContactInformation(new Email(primitiveValues.Email), new PhoneNumber(primitiveValues.PhoneNumber)));
+			new ContactInformation(new Address(new Street(primitiveValues.Street), new City(primitiveValues.City),
+					new State(primitiveValues.State), new ZipCode(primitiveValues.ZipCode)),
+				new Email(primitiveValues.Email), new PhoneNumber(primitiveValues.PhoneNumber)));
 }
