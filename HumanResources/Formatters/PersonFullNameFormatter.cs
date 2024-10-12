@@ -4,7 +4,7 @@ using Core.ValueObjects;
 
 namespace HumanResources.Formatters;
 
-internal class PersonFullNameFormatter : IFormatter<Person>
+public class PersonFullNameFormatter : IFormatter<Person>
 {
     public static PersonFullNameFormatter Instance { get; } = new();
 

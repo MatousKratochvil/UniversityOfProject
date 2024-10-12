@@ -1,7 +1,34 @@
 ﻿@page "/employees/{Id:guid}"
+@using Core.Extensions
+@using HumanResources.Entities
+@using HumanResources.Formatters
+@using HumanResources.Queries
+@using MediatR
+@using BlazorApp.Components.inputs
+@using Core.ValueObjects
+@using Core
+@rendermode  InteractiveServer
+@inject ISender Sender
+<PageTitle>@_employee.Person.Name.Format(PersonNameCombinedFormatter.Instance) - Detail</PageTitle>
 <h3>Detail</h3>
 
+<h4>@_employee.Person.Name.Format(PersonNameCombinedFormatter.Instance)</h4>
+<p>@_employee.Id.Id</p>
+
+<SingleNameInput @bind-Value="_firstName" Validator="(inputs, _) => Guard.ThrowWhenNullOrWhiteSpace(inputs)"/>
+
 @code {
-    [Parameter]
-    public Guid Id { get; set; }
+    [Parameter] public Guid Id { get; set; }
+
+    private Employee _employee;
+    
+    private SingleName _firstName;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var employee = await Sender.Send(new EmployeeDetailQuery(new EmployeeId(Id)));
+        _employee = employee.Employee;
+        _firstName = _employee.Person.Name.FirstName;
+    }
+
 }

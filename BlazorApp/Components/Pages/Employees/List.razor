@@ -3,6 +3,7 @@
 @using Core.Extensions
 @using HumanResources.Abstractions
 @using HumanResources.Entities
+@using HumanResources.Formatters
 @using HumanResources.Queries
 @using MediatR
 @inject NavigationManager NavigationManager
@@ -15,27 +16,41 @@
 
 <table class="table">
     <thead>
-        <tr>
-            <th>Name</th>
-            <th>City</th>
-            <th>Department</th>
-        </tr>
+    <tr>
+        <th>Name</th>
+        <th>City</th>
+        <th>Contract</th>
+        <th>Period</th>
+        <th>Department</th>
+        <th>Actions</th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var employee in _employees)
-        {
-            <tr data-id="@employee.Id.Id" @onclick="e => ToDetail(employee.Id)">
-                <td>@employee.Person.Name.Format(CombinedNameFormatter.Instance)</td>
-                <td>@employee.Person.ContactInformation.Address.City.Value</td>
-                <td>@employee.Contract.Department.Name.Value</td>
-            </tr>
-        }
+    @foreach (var employee in _employees)
+    {
+        <tr data-id="@employee.Id.Id">
+            <td>@employee.Person.Name.Format(PersonNameCombinedFormatter.Instance)</td>
+            <td>@employee.Person.ContactInformation.Address.City.Value</td>
+            <td>@employee.Contract.GetType().Name</td>
+            <td>@employee.Contract.Period.Format(PeriodCombinedFormatter.Instance)</td>
+            <td>@employee.Contract.Department.Name.Value</td>
+            <td>
+                <div class="buttons are-small">
+                    <button type="button" title="Edit" class="button is-link is-outlined" @onclick="e => ToDetail(employee.Id)">
+                        <span class="icon is-link">
+                            <i class="fas fa-edit"></i>
+                        </span>
+                    </button>
+                </div>
+            </td>
+        </tr>
+    }
     </tbody>
 </table>
 
 @code {
     private IList<Employee> _employees = new List<Employee>();
-    
+
     private void ToDetail(EmployeeId e)
     {
         NavigationManager.NavigateTo($"/employees/{e.Id}");

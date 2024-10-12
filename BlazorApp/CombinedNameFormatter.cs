@@ -1,14 +1,7 @@
-﻿using Core.Abstractions;
+﻿using System.Globalization;
+using Core.Abstractions;
 using Core.ComplexObjects;
+using Core.ValueObjects;
 
 namespace BlazorApp;
 
-public class CombinedNameFormatter : IFormatter<PersonName>
-{
-	public static CombinedNameFormatter Instance { get; } = new();
-
-	public string Format(PersonName obj)
-		=> obj.MiddleName is not null
-			? $"{(string)obj.FirstName} {(string)obj.MiddleName} {(string)obj.LastName}"
-			: $"{(string)obj.FirstName} {(string)obj.LastName}";
-}

@@ -1,0 +1,48 @@
+﻿@using Core.ValueObjects
+
+<InputText @bind-Value="_singleNameValue" class="form-control" @oninput="HandleInputChange"/>
+@if (!_isValid && _isDirty)
+{
+    <div class="text-danger">@_errorMessage</div>
+}
+
+@code {
+    private string _singleNameValue = string.Empty;
+    private string _errorMessage = "Invalid name";
+    private bool _isDirty;
+    private bool _isValid;
+
+    [Parameter] public SingleName Value { get; set; }
+
+    [Parameter] public EventCallback<SingleName> ValueChanged { get; set; }
+
+    [Parameter] public SingleNameValidator Validator { get; set; } = (_, _) => { };
+
+    [Parameter] public string PropertyName { get; set; } = nameof(SingleName.Value);
+
+    private void HandleFocus() => _isDirty = true;
+
+    private void HandleInputChange(ChangeEventArgs e)
+    {
+        _singleNameValue = e.Value?.ToString() ?? string.Empty;
+        _isDirty = true;
+        _isValid = true;
+        try
+        {
+            var newCity = new SingleName(_singleNameValue, Validator);
+            ValueChanged.InvokeAsync(newCity);
+        }
+        catch (Exception ex)
+        {
+            _isValid = false;
+            _errorMessage = ex.Message;
+            Console.WriteLine($"Validation error: {ex.Message}");
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        _singleNameValue = Value.Value;
+    }
+
+}
