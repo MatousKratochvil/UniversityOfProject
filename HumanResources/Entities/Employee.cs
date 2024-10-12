@@ -14,37 +14,98 @@ public record struct EmployeeId(Guid Id) : IEntityIdentity<Guid>
 	public static EmployeeId Empty => new(Guid.Empty);
 }
 
-public sealed class RegularEmployee(EmployeeId id, Person person, EmploymentContract contract)
-	: Employee(id, person, contract)
+public sealed class RegularEmployee : Employee
 {
+	public RegularEmployee(EmployeeId id, Person person, EmploymentContract contract)
+		: base(id, person, contract)
+	{
+	}
+
+	private RegularEmployee(RegularEmployee contract)
+		: base(contract)
+	{
+	}
+
+	internal override Employee CopyEmployee() => new RegularEmployee(this);
+
 	private RegularEmployee()
-		: this(default, default, default)
 	{
 	}
 }
 
-public sealed class AdministrativeEmployee(EmployeeId id, Person person, EmploymentContract contract)
-	: Employee(id, person, contract)
+public sealed class AdministrativeEmployee : Employee
 {
+	public AdministrativeEmployee(EmployeeId id, Person person, EmploymentContract contract)
+		: base(id, person, contract)
+	{
+	}
+
+	private AdministrativeEmployee(AdministrativeEmployee contract)
+		: base(contract)
+	{
+	}
+
+	internal override Employee CopyEmployee() => new AdministrativeEmployee(this);
+
 	private AdministrativeEmployee()
-		: this(default, default, default)
 	{
 	}
 }
 
-public sealed class Professor(EmployeeId id, Person person, EmploymentContract contract)
-	: Employee(id, person, contract)
+public sealed class Professor
+	: Employee
 {
+	public Professor(EmployeeId id, Person person, EmploymentContract contract)
+		: base(id, person, contract)
+	{
+	}
+
+	private Professor(Professor contract)
+		: base(contract)
+	{
+	}
+
+	internal override Employee CopyEmployee() => new Professor(this);
+
 	private Professor()
-		: this(default, default, default)
 	{
 	}
 }
 
-public abstract class Employee(EmployeeId id, Person person, EmploymentContract contract)
-	: IEntity<EmployeeId, Guid>
+public abstract class Employee : IEntity<EmployeeId, Guid>
 {
-	public EmployeeId Id { get; } = id;
-	public Person Person { get; } = person;
-	public EmploymentContract Contract { get; } = contract;
+	protected Employee()
+	{
+	}
+
+	protected Employee(EmployeeId id, Person person, EmploymentContract contract)
+	{
+		Id = id;
+		Person = person;
+		Contract = contract;
+	}
+
+	protected Employee(Employee contract)
+	{
+		Id = contract.Id;
+		Person = contract.Person;
+		Contract = contract.Contract;
+	}
+
+	internal abstract Employee CopyEmployee();
+
+	public EmployeeId Id { get; set; }
+	public Person Person { get; set; } = null!;
+	public EmploymentContract Contract { get; set; } = null!;
+}
+
+public static class EmployeeExtensions
+{
+	public static T WithContract<T>(this T employee, EmploymentContract employmentContract)
+		where T : Employee
+	{
+		var copy = employee.CopyEmployee();
+		copy.Contract = employmentContract;
+		return (T)copy;
+	}
 }

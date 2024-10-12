@@ -38,6 +38,9 @@
             Type = "Regular",
             PhoneNumber = "123 456 790",
             PersonalIdentificationNumber = "123454",
+            ContractType = "Temporary",
+            ContractStartDate = DateTime.Now,
+            ContractEndDate = DateTime.Now.AddYears(1)
         };
 
         return Mediator.Send(new CreateEmployeeRequest(primitiveValues));

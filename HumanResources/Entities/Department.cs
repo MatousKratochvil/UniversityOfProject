@@ -14,8 +14,8 @@ public record struct DepartmentId(Guid Id) : IEntityIdentity<Guid>
 	public static DepartmentId Empty => new(Guid.Empty);
 }
 
-public abstract class Department : IEntity<DepartmentId, Guid>
+public sealed class Department : IEntity<DepartmentId, Guid>
 {
-	public DepartmentId Id { get; } = DepartmentId.Empty;
+	public DepartmentId Id { get; init; } = DepartmentId.Empty;
 	public SingleName Name { get; init; } = new("DepartmentName");
 }

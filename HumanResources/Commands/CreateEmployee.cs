@@ -21,7 +21,7 @@ internal sealed class CreateEmployeeRequestHandler(
 	{
 		var employee = factory.CreateEmployee(request.PrimitiveValues);
 
-		context.Employees.Add(employee);
+		context.AddEntity(employee);
 		await context.SaveChangesAsync(cancellationToken);
 
 		await publisher.Publish(new EmployeeCreated(employee, userContext.User), cancellationToken);

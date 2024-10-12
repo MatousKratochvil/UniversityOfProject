@@ -18,6 +18,21 @@ namespace HumanResources.EntityFramework.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
 
+            modelBuilder.Entity("HumanResources.Entities.Department", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Department");
+                });
+
             modelBuilder.Entity("HumanResources.Entities.Employee", b =>
                 {
                     b.Property<Guid>("Id")
@@ -131,6 +146,12 @@ namespace HumanResources.EntityFramework.Migrations
                         .HasMaxLength(21)
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid>("DepartmentId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("TEXT");
+
                     b.ComplexProperty<Dictionary<string, object>>("Period", "HumanResources.Entities.EmploymentContract.Period#Period", b1 =>
                         {
                             b1.IsRequired();
@@ -143,6 +164,12 @@ namespace HumanResources.EntityFramework.Migrations
                         });
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DepartmentId")
+                        .IsUnique();
+
+                    b.HasIndex("EmployeeId")
+                        .IsUnique();
 
                     b.ToTable("EmploymentContract");
 
@@ -184,6 +211,31 @@ namespace HumanResources.EntityFramework.Migrations
                     b.HasBaseType("HumanResources.Entities.EmploymentContract");
 
                     b.HasDiscriminator().HasValue("Temporary");
+                });
+
+            modelBuilder.Entity("HumanResources.Entities.EmploymentContract", b =>
+                {
+                    b.HasOne("HumanResources.Entities.Department", "Department")
+                        .WithOne()
+                        .HasForeignKey("HumanResources.Entities.EmploymentContract", "DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HumanResources.Entities.Employee", "Employee")
+                        .WithOne("Contract")
+                        .HasForeignKey("HumanResources.Entities.EmploymentContract", "EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
+
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("HumanResources.Entities.Employee", b =>
+                {
+                    b.Navigation("Contract")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

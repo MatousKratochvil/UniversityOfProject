@@ -12,6 +12,18 @@ namespace HumanResources.EntityFramework.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Department",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Department", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "EmployeesSet",
                 columns: table => new
                 {
@@ -40,22 +52,53 @@ namespace HumanResources.EntityFramework.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    ContractType = table.Column<string>(type: "TEXT", maxLength: 21, nullable: false)
+                    EmployeeId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    DepartmentId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    ContractType = table.Column<string>(type: "TEXT", maxLength: 21, nullable: false),
+                    Period_End = table.Column<int>(type: "INTEGER", nullable: false),
+                    Period_Start = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_EmploymentContract", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EmploymentContract_Department_DepartmentId",
+                        column: x => x.DepartmentId,
+                        principalTable: "Department",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EmploymentContract_EmployeesSet_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "EmployeesSet",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmploymentContract_DepartmentId",
+                table: "EmploymentContract",
+                column: "DepartmentId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EmploymentContract_EmployeeId",
+                table: "EmploymentContract",
+                column: "EmployeeId",
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "EmployeesSet");
+                name: "EmploymentContract");
 
             migrationBuilder.DropTable(
-                name: "EmploymentContract");
+                name: "Department");
+
+            migrationBuilder.DropTable(
+                name: "EmployeesSet");
         }
     }
 }

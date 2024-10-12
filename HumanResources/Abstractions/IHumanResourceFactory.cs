@@ -22,5 +22,8 @@ public readonly record struct EmployeePrimitiveValues
 	public string PhoneNumber { get; init; }
 	public string Email { get; init; }
 	public string PersonalIdentificationNumber { get; init; }
+	public string ContractType { get; init; }
 	public DateTime BirthDate { get; init; }
+	public DateTime ContractStartDate { get; init; }
+	public DateTime ContractEndDate { get; init; }
 }

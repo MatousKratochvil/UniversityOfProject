@@ -17,11 +17,10 @@ internal class HumanResourcesContext(DbContextOptions options) : DbContextBase(o
 
     public IWriteRepository<Employee> Employees => new WriteRepository<Employee>(EmployeesSet);
     public IReadRepository<Employee> ReadEmployees => new ReadRepository<Employee>(EmployeesSet);
+    public void AddEntity<TEntity>(TEntity entity) where TEntity : class => Add(entity);
 
-    protected override void ConfigureContext(ModelBuilder configurationBuilder)
-    {
+    protected override void ConfigureContext(ModelBuilder configurationBuilder) =>
         configurationBuilder.ApplyConfigurationsFromAssembly(typeof(HumanResourcesContext).Assembly);
-    }
 }
 
 internal class HumanResourcesContextFactory : IDesignTimeDbContextFactory<HumanResourcesContext>
