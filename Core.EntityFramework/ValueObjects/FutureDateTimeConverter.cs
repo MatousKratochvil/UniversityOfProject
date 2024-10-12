@@ -3,22 +3,22 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Core.EntityFramework.ValueObjects;
 
-public sealed class FutureDateConverter() :
-	ValueConverter<IFutureDate, int>(
+public class FutureDateTimeConverter() :
+	ValueConverter<IFutureDate, long>(
 		futureDate => Covert(futureDate),
-		@int => Covert(@int)
+		@long => Covert(@long)
 	)
 {
-	private static int Covert(IFutureDate date) =>
+	private static long Covert(IFutureDate date) =>
 		date switch
 		{
-			FutureDate futureDate => Converters.DateToInt(futureDate.Value),
+			FutureDate futureDate => Converters.DateTimeToLong(futureDate.Value),
 			InvalidFutureDate => -1,
 			InfiniteDate => 0,
 			_ => throw new ArgumentOutOfRangeException(nameof(date), date, null)
 		};
 
-	private static IFutureDate Covert(int dateNumber)
+	private static IFutureDate Covert(long dateNumber)
 		=> dateNumber switch
 		{
 			0 => new InfiniteDate(),
@@ -26,9 +26,9 @@ public sealed class FutureDateConverter() :
 			_ => GetFutureDate(dateNumber)
 		};
 
-	private static IFutureDate GetFutureDate(int dateNumber)
+	private static IFutureDate GetFutureDate(long dateNumber)
 	{
-		var date = Converters.DateFromInt(dateNumber);
+		var date = Converters.DateTimeFromLong(dateNumber);
 
 		return date.CompareTo(DateTime.Now) switch
 		{

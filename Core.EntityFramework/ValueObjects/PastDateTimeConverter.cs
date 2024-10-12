@@ -3,32 +3,32 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Core.EntityFramework.ValueObjects;
 
-public sealed class PastDateCoverter() :
-	ValueConverter<IPastDate, int>(
+public sealed class PastDateTimeConverter() :
+	ValueConverter<IPastDate, long>(
 		pastDate => Covert(pastDate),
-		@int => Covert(@int)
+		@long => Covert(@long)
 	)
 {
-	private static int Covert(IPastDate date) =>
+	private static long Covert(IPastDate date) =>
 		date switch
 		{
-			PastDate futureDate => Converters.DateToInt(futureDate.Value),
+			PastDate futureDate => Converters.DateTimeToLong(futureDate.Value),
 			InvalidPastDate => -1,
 			InfiniteDate => 0,
 			_ => throw new ArgumentOutOfRangeException(nameof(date), date, null)
 		};
 
-	private static IPastDate Covert(int i)
-		=> i switch
+	private static IPastDate Covert(long dateNumber)
+		=> dateNumber switch
 		{
 			0 => new InfiniteDate(),
 			-1 => new InvalidPastDate(DateTime.MinValue),
-			_ => GetFutureDate(i)
+			_ => GetFutureDate(dateNumber)
 		};
 
-	private static IPastDate GetFutureDate(int i)
+	private static IPastDate GetFutureDate(long dateNumber)
 	{
-		var date = Converters.DateFromInt(i);
+		var date = Converters.DateTimeFromLong(dateNumber);
 
 		return date.CompareTo(DateTime.Now) switch
 		{
