@@ -13,7 +13,7 @@ internal sealed class EmployeeTableQueryHandler(IHumanResourcesDbContext dbConte
 {
 	public Task<EmployeeTableQueryResponse> Handle(EmployeeTableQuery request, CancellationToken cancellationToken)
 	{
-		var employees = dbContext.ReadEmployees.Query()
+		var employees = dbContext.ReadFullEmployees.Query()
 			.Skip(request.Skip)
 			.Take(request.Take)
 			.ToList();

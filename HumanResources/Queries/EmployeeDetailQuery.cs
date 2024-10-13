@@ -13,7 +13,7 @@ internal sealed class EmployeeDetailQueryHandler(IHumanResourcesDbContext dbCont
 {
     public Task<EmployeeDetailQueryResponse> Handle(EmployeeDetailQuery request, CancellationToken cancellationToken)
     {
-        var employee = dbContext.ReadEmployees.Query()
+        var employee = dbContext.ReadFullEmployees.Query()
             .FirstOrDefault(e => e.Id == request.Id);
 
         return Task.FromResult(new EmployeeDetailQueryResponse(employee));

@@ -7,6 +7,7 @@ public interface IHumanResourceFactory
 {
 	Employee CreateEmployee(EmployeePrimitiveValues primitiveValues);
 	Person CreatePerson(EmployeePrimitiveValues primitiveValues);
+	EmploymentContract CreateContract(EmployeePrimitiveValues commandPrimitiveValues);
 }
 
 public readonly record struct EmployeePrimitiveValues

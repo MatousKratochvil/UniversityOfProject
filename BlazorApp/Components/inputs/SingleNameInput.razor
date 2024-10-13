@@ -29,8 +29,8 @@
         _isValid = true;
         try
         {
-            var newCity = new SingleName(_singleNameValue, Validator);
-            ValueChanged.InvokeAsync(newCity);
+            var newSingleName = new SingleName(_singleNameValue, Validator);
+            ValueChanged.InvokeAsync(newSingleName);
         }
         catch (Exception ex)
         {

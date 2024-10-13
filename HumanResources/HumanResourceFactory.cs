@@ -40,7 +40,7 @@ internal class HumanResourceFactory : IHumanResourceFactory
 		};
 	}
 
-	private EmploymentContract CreateContract(EmployeePrimitiveValues primitiveValues)
+	private EmploymentContract InternalCreateContract(EmployeePrimitiveValues primitiveValues)
 	{
 		var period = new ValidPeriod(new PastDate(primitiveValues.ContractStartDate),
 			new FutureDate(primitiveValues.ContractEndDate));
@@ -68,4 +68,16 @@ internal class HumanResourceFactory : IHumanResourceFactory
 			new ContactInformation(new Address(new Street(primitiveValues.Street), new City(primitiveValues.City),
 					new State(primitiveValues.State), new ZipCode(primitiveValues.ZipCode)),
 				new Email(primitiveValues.Email), new PhoneNumber(primitiveValues.PhoneNumber)));
+
+	public EmploymentContract CreateContract(EmployeePrimitiveValues commandPrimitiveValues)
+	{
+		var period = new ValidPeriod(new PastDate(commandPrimitiveValues.ContractStartDate),
+			new FutureDate(commandPrimitiveValues.ContractEndDate));
+		return commandPrimitiveValues.ContractType switch
+		{
+			"Permanent" => new PermanentContract(EmploymentContractId.Empty, period, null, null),
+			"Temporary" => new TemporaryContract(EmploymentContractId.Empty, period, null, null),
+			_ => throw new ArgumentOutOfRangeException(nameof(commandPrimitiveValues.ContractType))
+		};
+	}
 }

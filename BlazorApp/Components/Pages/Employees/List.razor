@@ -14,6 +14,15 @@
 @* *@
 @* <CityInput @bind-Value="_city" Validator="(inputs, _) => Guard.ThrowWhenNullOrWhiteSpace(inputs)"/> *@
 
+<button type="button">
+    <NavLink class="button is-link is-outlined" href="employees/create">
+        <span class="icon is-link">
+            <i class="fas fa-plus"></i>
+        </span>
+        <span>Create</span>
+    </NavLink>
+</button>
+
 <table class="table is-hoverable is-fullwidth">
     <thead>
     <tr>

@@ -1,0 +1,46 @@
+﻿@page "/employees/create"
+@using Core.Extensions
+@using HumanResources.Entities
+@using HumanResources.Formatters
+@using MediatR
+@using BlazorApp.Components.inputs
+@using Core.ValueObjects
+@using HumanResources.Queries
+@using Core.ComplexObjects
+@using HumanResources.Commands
+@using Core
+@rendermode InteractiveServer
+@inject ISender Sender
+<PageTitle>Employee - Create</PageTitle>
+<h3>Create</h3>
+
+@* <SingleNameInput bind-Value="_firstName" Validator="(inputs, _) => Guard.ThrowWhenNullOrWhiteSpace(inputs)"/> *@
+<p>@_firstName.Value</p>
+
+@code {
+    private SingleName _firstName = new("Test");
+
+    protected override async Task OnInitializedAsync()
+    {
+        var employee = await Sender.Send(new EmployeeDetailQuery(new EmployeeId("F0EECD95-7614-4E85-900A-D6C974B6D60B")));
+
+        employee.Employee.Person = new Person(
+            new Title("Mr"),
+            new PersonName(new SingleName("blemc"), new SingleName("blemc"), new SingleName("blemc")),
+            new PersonIdentification(new BirthDate(DateTime.Now), new PersonalIdentificationNumber("123456789")),
+            new ContactInformation(new Address(
+                new Street("blemc"),
+                new City("blemc"),
+                new State("blemc"),
+                new ZipCode("12345")), new Email("blemc@blemc.cz"), new PhoneNumber("987654321")));
+
+        employee.Employee.Contract = new TemporaryContract(
+            employee.Employee.Contract.Id,
+            new ValidPeriod(new PastDate(DateTime.Now), new FutureDate(DateTime.Now.AddMonths(1))),
+            employee.Employee,
+            employee.Employee.Contract.Department);
+
+        await Sender.Send(new EmployeeUpdateCommand(employee.Employee));
+    }
+
+}

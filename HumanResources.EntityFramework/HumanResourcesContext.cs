@@ -15,12 +15,15 @@ internal class HumanResourcesContext(DbContextOptions options) : DbContextBase(o
 	{
 	}
 
-	public IWriteRepository<Employee> Employees => new WriteRepository<Employee>(EmployeesSet);
+	public IWriteRepository<Employee> Employees => new WriteRepository<Employee>(EmployeesSet, EmployeesSet
+		.Include(x => x.Contract)
+		.ThenInclude(x => x.Department));
 
-	public IReadRepository<Employee> ReadEmployees => new ReadRepository<Employee>(
-		EmployeesSet
-			.Include(x => x.Contract)
-			.ThenInclude(x => x.Department));
+	public IReadRepository<Employee> ReadEmployees => new ReadRepository<Employee>(EmployeesSet);
+
+	public IReadRepository<Employee> ReadFullEmployees => new ReadRepository<Employee>(EmployeesSet
+		.Include(x => x.Contract)
+		.ThenInclude(x => x.Department));
 
 	public void AddEntity<TEntity>(TEntity entity) where TEntity : class => Add(entity);
 
