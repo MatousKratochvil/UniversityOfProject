@@ -15,7 +15,7 @@ internal class HumanResourcesContext(DbContextOptions options) : DbContextBase(o
 	{
 	}
 
-	public IWriteRepository<Employee> Employees => new WriteRepository<Employee>(EmployeesSet, EmployeesSet
+	public IWriteRepository<Employee> Employees => new WriteRepository<Employee, EmployeeId, Guid>(EmployeesSet, EmployeesSet
 		.Include(x => x.Contract)
 		.ThenInclude(x => x.Department));
 

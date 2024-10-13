@@ -17,13 +17,9 @@ internal sealed class EmployeeUpdateCommandHandler(
 	public async Task<EmployeeUpdateCommandResponse> Handle(EmployeeUpdateCommand command,
 		CancellationToken cancellationToken)
 	{
-		var employee = context.Employees.Query().First(x => x.Id == command.Employee.Id);
-		employee.Person = command.Employee.Person;
-		employee.Contract = command.Employee.Contract;
-
-		context.Employees.Update(employee);
+		context.Employees.Update(command.Employee);
 		await context.SaveChangesAsync(cancellationToken);
 
-		return new EmployeeUpdateCommandResponse(employee.Id);
+		return new EmployeeUpdateCommandResponse(command.Employee.Id);
 	}
 }
