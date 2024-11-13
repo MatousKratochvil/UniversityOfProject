@@ -1,4 +1,5 @@
 ﻿using Core;
+using Core.ValueObjects.Complex;
 
 namespace CoreTests;
 
