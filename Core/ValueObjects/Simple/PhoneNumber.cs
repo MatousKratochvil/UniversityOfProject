@@ -21,6 +21,8 @@ public record struct PhoneNumber : IStringValueObject
 		return new PhoneNumber(value);
 	}
 
+	internal static PhoneNumber Create(string value) => new(value);
+	
 	private static PhoneNumberValidator BasicValidator => Guard.BasicPhoneNumberValidator;
 
 	public static implicit operator string(PhoneNumber value) => value.Value;

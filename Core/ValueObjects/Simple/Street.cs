@@ -21,6 +21,8 @@ public record struct Street : IStringValueObject
 		return new Street(value);
 	}
 
+	internal static Street Create(string value) => new(value);
+	
 	private static StreetValidator BasicValidator => Guard.BasicStringValidator;
 
 	public static implicit operator string(Street value) => value.Value;

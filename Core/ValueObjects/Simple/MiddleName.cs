@@ -21,6 +21,8 @@ public record struct MiddleName : IStringValueObject
 		return new MiddleName(value);
 	}
 
+	internal static MiddleName Create(string value) => new(value);
+	
 	private static MiddleNameValidator BasicValidator => Guard.BasicStringValidator;
 
 	public static implicit operator string(MiddleName value) => value.Value;

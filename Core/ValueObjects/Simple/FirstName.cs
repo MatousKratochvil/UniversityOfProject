@@ -20,6 +20,8 @@ public record struct FirstName : IStringValueObject
 
 		return new FirstName(value);
 	}
+	
+	internal static FirstName Create(string value) => new(value);
 
 	private static FirstNameValidator BasicValidator => Guard.BasicStringValidator;
 

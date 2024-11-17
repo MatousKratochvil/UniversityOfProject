@@ -20,6 +20,8 @@ public record struct State : IStringValueObject
 
 		return new State(value);
 	}
+	
+	internal static State Create(string value) => new(value);
 
 	private static StateValidator BasicValidator => Guard.BasicStringValidator;
 

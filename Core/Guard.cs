@@ -54,9 +54,9 @@ public static class Guard
 		ThrowWhenOutOfLengthRange(value, min, max, propertyName);
 	}
 
-	public static void BasicDateValidator(DateTime value, string? propertyName)
+	public static void BasicDateValidator(DateOnly value, string? propertyName)
 	{
-		if (value == DateTime.MinValue)
+		if (value == DateOnly.MinValue)
 			throw new ArgumentException($"{propertyName} must not be the default value.");
 	}
 

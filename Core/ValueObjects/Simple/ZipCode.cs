@@ -21,6 +21,8 @@ public record struct ZipCode : IStringValueObject
 		return new ZipCode(value);
 	}
 
+	internal static ZipCode Create(string value) => new(value);
+
 	private static ZipCodeValidator BasicValidator =>
 		(value, propertyName) => Guard.BasicStringValidator(value, 5, 5, propertyName);
 

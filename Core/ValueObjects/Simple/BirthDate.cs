@@ -4,14 +4,14 @@ namespace Core.ValueObjects.Simple;
 
 public record struct BirthDate : IDateValueObject
 {
-	public DateTime Value { get; }
+	public DateOnly Value { get; }
 
-	private BirthDate(DateTime value)
+	private BirthDate(DateOnly value)
 	{
 		Value = value;
 	}
 
-	public static BirthDate Create(DateTime value, BirthDateValidator? validator = null)
+	public static BirthDate Create(DateOnly value, BirthDateValidator? validator = null)
 	{
 		if (validator is not null)
 			validator(value);
@@ -21,11 +21,13 @@ public record struct BirthDate : IDateValueObject
 		return new BirthDate(value);
 	}
 	
+	internal static BirthDate Create(DateOnly value) => new(value);
+	
 	private static BirthDateValidator BasicValidator => Guard.BasicDateValidator;
 
-	public static implicit operator DateTime(BirthDate birthDate) => birthDate.Value;
+	public static implicit operator DateOnly(BirthDate birthDate) => birthDate.Value;
 
-	public static implicit operator BirthDate(DateTime birthDate) => new(birthDate);
+	public static implicit operator BirthDate(DateOnly birthDate) => new(birthDate);
 }
 
-public delegate void BirthDateValidator(DateTime value, string? propertyName = null);
+public delegate void BirthDateValidator(DateOnly value, string? propertyName = null);

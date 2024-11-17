@@ -21,6 +21,8 @@ public record struct SingleName : IStringValueObject
 		return new SingleName(value);
 	}
 
+	internal static SingleName Create(string value) => new(value);
+	
 	private static SingleNameValidator BasicValidator => Guard.BasicStringValidator;
 
 	public static implicit operator string(SingleName value) => value.Value;

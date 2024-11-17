@@ -21,6 +21,8 @@ public record struct EmailAddress : IStringValueObject
 		return new EmailAddress(value);
 	}
 	
+	internal static EmailAddress Create(string value) => new(value);
+
 	private static EmailAddressValidator BasicValidator => Guard.BasicEmailValidator;
 	
 	public static implicit operator string(EmailAddress value) => value.Value;

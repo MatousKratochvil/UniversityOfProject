@@ -20,6 +20,8 @@ public record struct City : IStringValueObject
 
 		return new City(value);
 	}
+	
+	internal static City Create(string value) => new(value);
 
 	private static CityValidator BasicValidator => Guard.BasicStringValidator;
 
